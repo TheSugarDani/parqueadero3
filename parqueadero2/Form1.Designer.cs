@@ -1,14 +1,14 @@
 ﻿namespace parqueadero2
 {
-    partial class Form1
+    partial class VistaPersonita
     {
         /// <summary>
-        ///  Required designer variable.
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        ///  Clean up any resources being used.
+        /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
@@ -23,102 +23,83 @@
         #region Windows Form Designer generated code
 
         /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            lblPlaca = new Label();
-            lblHoraIngreso = new Label();
-            label3 = new Label();
-            lblHoraSalida = new Label();
-            label5 = new Label();
-            pictureBoxCamara = new PictureBox();
-            CapturarPlaca = new System.Windows.Forms.Timer(components);
-            ((System.ComponentModel.ISupportInitialize)pictureBoxCamara).BeginInit();
+            labelPlaca = new Label();
+            pictureBoxPlaca = new PictureBox();
+            labelHoraIngreso = new Label();
+            labelHoraSalida = new Label();
+            timer1 = new System.Windows.Forms.Timer(components);
+            ((System.ComponentModel.ISupportInitialize)pictureBoxPlaca).BeginInit();
             SuspendLayout();
             // 
-            // lblPlaca
+            // labelPlaca
             // 
-            lblPlaca.AutoSize = true;
-            lblPlaca.Location = new Point(357, 26);
-            lblPlaca.Name = "lblPlaca";
-            lblPlaca.Size = new Size(35, 15);
-            lblPlaca.TabIndex = 0;
-            lblPlaca.Text = "Placa";
+            labelPlaca.AutoSize = true;
+            labelPlaca.Location = new Point(351, 30);
+            labelPlaca.Name = "labelPlaca";
+            labelPlaca.Size = new Size(38, 15);
+            labelPlaca.TabIndex = 0;
+            labelPlaca.Text = "Placa:";
+            labelPlaca.Click += labelPlaca_Click;
             // 
-            // lblHoraIngreso
+            // pictureBoxPlaca
             // 
-            lblHoraIngreso.AutoSize = true;
-            lblHoraIngreso.Location = new Point(205, 296);
-            lblHoraIngreso.Name = "lblHoraIngreso";
-            lblHoraIngreso.Size = new Size(75, 15);
-            lblHoraIngreso.TabIndex = 1;
-            lblHoraIngreso.Text = "Hora Ingreso";
+            pictureBoxPlaca.Location = new Point(183, 73);
+            pictureBoxPlaca.Name = "pictureBoxPlaca";
+            pictureBoxPlaca.Size = new Size(399, 196);
+            pictureBoxPlaca.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBoxPlaca.TabIndex = 1;
+            pictureBoxPlaca.TabStop = false;
             // 
-            // label3
+            // labelHoraIngreso
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(217, 327);
-            label3.Name = "label3";
-            label3.Size = new Size(46, 15);
-            label3.TabIndex = 2;
-            label3.Text = "Ingreso";
+            labelHoraIngreso.AutoSize = true;
+            labelHoraIngreso.Location = new Point(210, 306);
+            labelHoraIngreso.Name = "labelHoraIngreso";
+            labelHoraIngreso.Size = new Size(94, 15);
+            labelHoraIngreso.TabIndex = 2;
+            labelHoraIngreso.Text = "Hora de Ingreso:";
             // 
-            // lblHoraSalida
+            // labelHoraSalida
             // 
-            lblHoraSalida.AutoSize = true;
-            lblHoraSalida.Location = new Point(512, 296);
-            lblHoraSalida.Name = "lblHoraSalida";
-            lblHoraSalida.Size = new Size(67, 15);
-            lblHoraSalida.TabIndex = 3;
-            lblHoraSalida.Text = "Hora Salida";
+            labelHoraSalida.AutoSize = true;
+            labelHoraSalida.Location = new Point(534, 302);
+            labelHoraSalida.Name = "labelHoraSalida";
+            labelHoraSalida.Size = new Size(86, 15);
+            labelHoraSalida.TabIndex = 3;
+            labelHoraSalida.Text = "Hora de Salida:";
             // 
-            // label5
+            // timer1
             // 
-            label5.AutoSize = true;
-            label5.Location = new Point(525, 327);
-            label5.Name = "label5";
-            label5.Size = new Size(38, 15);
-            label5.TabIndex = 4;
-            label5.Text = "Salida";
+            timer1.Interval = 1000;
             // 
-            // pictureBoxCamara
-            // 
-            pictureBoxCamara.Location = new Point(205, 72);
-            pictureBoxCamara.Name = "pictureBoxCamara";
-            pictureBoxCamara.Size = new Size(358, 204);
-            pictureBoxCamara.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBoxCamara.TabIndex = 5;
-            pictureBoxCamara.TabStop = false;
-            // 
-            // Form1
+            // VistaPersonita
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(pictureBoxCamara);
-            Controls.Add(label5);
-            Controls.Add(lblHoraSalida);
-            Controls.Add(label3);
-            Controls.Add(lblHoraIngreso);
-            Controls.Add(lblPlaca);
-            Name = "Form1";
-            Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)pictureBoxCamara).EndInit();
+            Controls.Add(labelHoraSalida);
+            Controls.Add(labelHoraIngreso);
+            Controls.Add(pictureBoxPlaca);
+            Controls.Add(labelPlaca);
+            Name = "VistaPersonita";
+            Text = "administrador";
+            ((System.ComponentModel.ISupportInitialize)pictureBoxPlaca).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Label lblPlaca;
-        private Label lblHoraIngreso;
-        private Label label3;
-        private Label lblHoraSalida;
-        private Label label5;
-        private PictureBox pictureBoxCamara;
-        private System.Windows.Forms.Timer CapturarPlaca;
+        private Label labelPlaca;
+        private PictureBox pictureBoxPlaca;
+        private Label labelHoraIngreso;
+        private Label labelHoraSalida;
+        private System.Windows.Forms.Timer timer1;
     }
 }
