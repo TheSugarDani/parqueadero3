@@ -30,10 +30,10 @@
         {
             components = new System.ComponentModel.Container();
             labelPlaca = new Label();
-            pictureBoxPlaca = new PictureBox();
             labelHoraIngreso = new Label();
             labelHoraSalida = new Label();
             timer1 = new System.Windows.Forms.Timer(components);
+            pictureBoxPlaca = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPlaca).BeginInit();
             SuspendLayout();
             // 
@@ -45,15 +45,6 @@
             labelPlaca.Size = new Size(38, 15);
             labelPlaca.TabIndex = 0;
             labelPlaca.Text = "Placa:";
-            // 
-            // pictureBoxPlaca
-            // 
-            pictureBoxPlaca.Location = new Point(222, 62);
-            pictureBoxPlaca.Name = "pictureBoxPlaca";
-            pictureBoxPlaca.Size = new Size(285, 217);
-            pictureBoxPlaca.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBoxPlaca.TabIndex = 1;
-            pictureBoxPlaca.TabStop = false;
             // 
             // labelHoraIngreso
             // 
@@ -77,6 +68,15 @@
             // 
             timer1.Interval = 1000;
             // 
+            // pictureBoxPlaca
+            // 
+            pictureBoxPlaca.Location = new Point(225, 48);
+            pictureBoxPlaca.Name = "pictureBoxPlaca";
+            pictureBoxPlaca.Size = new Size(294, 269);
+            pictureBoxPlaca.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBoxPlaca.TabIndex = 4;
+            pictureBoxPlaca.TabStop = false;
+            // 
             // VistaPersonita
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -96,9 +96,9 @@
         #endregion
 
         private Label labelPlaca;
-        private PictureBox pictureBoxPlaca;
         private Label labelHoraIngreso;
         private Label labelHoraSalida;
         private System.Windows.Forms.Timer timer1;
+        private PictureBox pictureBoxPlaca;
     }
 }
