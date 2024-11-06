@@ -45,13 +45,12 @@
             labelPlaca.Size = new Size(38, 15);
             labelPlaca.TabIndex = 0;
             labelPlaca.Text = "Placa:";
-            labelPlaca.Click += labelPlaca_Click;
             // 
             // pictureBoxPlaca
             // 
-            pictureBoxPlaca.Location = new Point(183, 73);
+            pictureBoxPlaca.Location = new Point(210, 57);
             pictureBoxPlaca.Name = "pictureBoxPlaca";
-            pictureBoxPlaca.Size = new Size(399, 196);
+            pictureBoxPlaca.Size = new Size(350, 242);
             pictureBoxPlaca.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBoxPlaca.TabIndex = 1;
             pictureBoxPlaca.TabStop = false;
@@ -59,7 +58,7 @@
             // labelHoraIngreso
             // 
             labelHoraIngreso.AutoSize = true;
-            labelHoraIngreso.Location = new Point(210, 306);
+            labelHoraIngreso.Location = new Point(210, 318);
             labelHoraIngreso.Name = "labelHoraIngreso";
             labelHoraIngreso.Size = new Size(94, 15);
             labelHoraIngreso.TabIndex = 2;
@@ -68,7 +67,7 @@
             // labelHoraSalida
             // 
             labelHoraSalida.AutoSize = true;
-            labelHoraSalida.Location = new Point(534, 302);
+            labelHoraSalida.Location = new Point(474, 318);
             labelHoraSalida.Name = "labelHoraSalida";
             labelHoraSalida.Size = new Size(86, 15);
             labelHoraSalida.TabIndex = 3;
