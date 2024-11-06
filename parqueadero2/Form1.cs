@@ -2,7 +2,6 @@
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace parqueadero2
@@ -26,23 +25,26 @@ namespace parqueadero2
 
         private void VistaPersonita_Load(object sender, EventArgs e)
         {
-            capture = new VideoCapture(0); // Usar la cámara predeterminada
-            if (!capture.IsOpened())
+            try
             {
-                MessageBox.Show("No se pudo abrir la cámara.");
-                return;
+                capture = new VideoCapture(0); // Usar la cámara predeterminada (índice 0)
+
+                if (!capture.IsOpened()) // Verifica si la cámara se abre correctamente
+                {
+                    // Si la cámara no se inicia, salir del método
+                    return;
+                }
+
+                // Configura el Timer para actualizar la imagen
+                cameraTimer = new System.Windows.Forms.Timer();
+                cameraTimer.Interval = 100; // Intervalo de 100 ms
+                cameraTimer.Tick += CameraTimer_Tick;
+                cameraTimer.Start(); // Inicia el Timer
             }
-
-            // Obtener las propiedades de la cámara usando índices enteros
-            double width = capture.Get(3);  // 3 es el índice para el ancho del frame
-            double height = capture.Get(4); // 4 es el índice para la altura del frame
-            MessageBox.Show($"Cámara abierta con resolución: {width}x{height}");
-
-            // Configura el Timer para actualizar la imagen
-            cameraTimer = new System.Windows.Forms.Timer();
-            cameraTimer.Interval = 100; // Intervalo de 100 ms
-            cameraTimer.Tick += CameraTimer_Tick;
-            cameraTimer.Start(); // Inicia el Timer
+            catch (Exception ex)
+            {
+                // Puedes agregar un log de error si lo deseas
+            }
         }
 
         private void CameraTimer_Tick(object sender, EventArgs e)
@@ -54,28 +56,25 @@ namespace parqueadero2
                     capture.Read(frame);  // Captura un frame de la cámara
                     if (frame.Empty())
                     {
-                        MessageBox.Show("No se pudo capturar un frame.");
+                        return; // Si el frame está vacío, salir
                     }
-                    else
+
+                    // Actualizar el PictureBox con el frame capturado
+                    if (pictureBoxPlaca.Image != null)
                     {
-                        // Libera la imagen anterior del PictureBox antes de mostrar una nueva
-                        if (pictureBoxPlaca.Image != null)
-                        {
-                            pictureBoxPlaca.Image.Dispose();
-                        }
-
-                        // Convertir el frame capturado a Bitmap y mostrar en el PictureBox
-                        pictureBoxPlaca.Image = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(frame);
-                        pictureBoxPlaca.Refresh(); // Refresca el PictureBox
-
-                        // Procesa la imagen para detectar la placa
-                        CapturarPlaca(frame);
+                        pictureBoxPlaca.Image.Dispose();
                     }
+
+                    pictureBoxPlaca.Image = BitmapConverter.ToBitmap(frame);
+                    pictureBoxPlaca.Refresh();
+
+                    // Llamar a la detección de placa en el frame actual
+                    CapturarPlaca(frame);
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show($"Error capturando el frame: {ex.Message}");
+                // Silenciar cualquier excepción aquí si prefieres no mostrar mensajes
             }
         }
 
@@ -85,7 +84,6 @@ namespace parqueadero2
             {
                 try
                 {
-                    // Usar IronOCR para procesar la imagen capturada
                     using (var captura = frame.ToBitmap())
                     {
                         var resultadoOCR = ocrEngine.Read(captura);
@@ -99,26 +97,26 @@ namespace parqueadero2
                                 placaIngresada = true;
 
                                 labelPlaca.Text = $"Placa: {placaActual}";
-                                labelHoraIngreso.Text = $"Hora de Ingreso: {horaIngreso.ToString("HH:mm:ss")}";
+                                labelHoraIngreso.Text = $"Hora de Ingreso: {horaIngreso:HH:mm:ss}";
                             }
                             else if (placaActual == placaDetectada)
                             {
                                 horaSalida = DateTime.Now;
-                                labelHoraSalida.Text = $"Hora de Salida: {horaSalida.ToString("HH:mm:ss")}";
+                                labelHoraSalida.Text = $"Hora de Salida: {horaSalida:HH:mm:ss}";
                             }
                         }
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
-                    MessageBox.Show($"Error al capturar la placa: {ex.Message}");
+                    // Silenciar cualquier excepción aquí si prefieres no mostrar mensajes
                 }
             }
         }
 
         private void VistaPersonita_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Libera los recursos de la cámara al cerrar el formulario
+            // Libera los recursos de la cámara y el timer al cerrar el formulario
             cameraTimer?.Stop();
             capture?.Release();
         }

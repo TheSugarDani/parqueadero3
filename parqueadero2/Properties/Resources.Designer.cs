@@ -59,5 +59,25 @@ namespace parqueadero2.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Imagen_de_WhatsApp_2024_08_20_a_las_15_22_52_ed244b81 {
+            get {
+                object obj = ResourceManager.GetObject("Imagen de WhatsApp 2024-08-20 a las 15.22.52_ed244b81", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap placa {
+            get {
+                object obj = ResourceManager.GetObject("placa", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
