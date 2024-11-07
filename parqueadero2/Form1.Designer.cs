@@ -34,34 +34,33 @@
             labelHoraSalida = new Label();
             timer1 = new System.Windows.Forms.Timer(components);
             pictureBoxPlaca = new PictureBox();
+            lblPlaca = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBoxPlaca).BeginInit();
             SuspendLayout();
             // 
             // labelPlaca
             // 
             labelPlaca.AutoSize = true;
-            labelPlaca.Location = new Point(401, 40);
+            labelPlaca.Location = new Point(351, 30);
             labelPlaca.Name = "labelPlaca";
-            labelPlaca.Size = new Size(47, 20);
+            labelPlaca.Size = new Size(0, 15);
             labelPlaca.TabIndex = 0;
-            labelPlaca.Text = "Placa:";
-            labelPlaca.Click += labelPlaca_Click;
             // 
             // labelHoraIngreso
             // 
             labelHoraIngreso.AutoSize = true;
-            labelHoraIngreso.Location = new Point(224, 464);
+            labelHoraIngreso.Location = new Point(195, 368);
             labelHoraIngreso.Name = "labelHoraIngreso";
-            labelHoraIngreso.Size = new Size(119, 20);
+            labelHoraIngreso.Size = new Size(94, 15);
             labelHoraIngreso.TabIndex = 2;
             labelHoraIngreso.Text = "Hora de Ingreso:";
             // 
             // labelHoraSalida
             // 
             labelHoraSalida.AutoSize = true;
-            labelHoraSalida.Location = new Point(535, 464);
+            labelHoraSalida.Location = new Point(468, 368);
             labelHoraSalida.Name = "labelHoraSalida";
-            labelHoraSalida.Size = new Size(111, 20);
+            labelHoraSalida.Size = new Size(86, 15);
             labelHoraSalida.TabIndex = 3;
             labelHoraSalida.Text = "Hora de Salida:";
             // 
@@ -71,24 +70,32 @@
             // 
             // pictureBoxPlaca
             // 
-            pictureBoxPlaca.Location = new Point(257, 64);
-            pictureBoxPlaca.Margin = new Padding(3, 4, 3, 4);
+            pictureBoxPlaca.Location = new Point(229, 65);
             pictureBoxPlaca.Name = "pictureBoxPlaca";
-            pictureBoxPlaca.Size = new Size(336, 359);
+            pictureBoxPlaca.Size = new Size(294, 269);
             pictureBoxPlaca.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBoxPlaca.TabIndex = 4;
             pictureBoxPlaca.TabStop = false;
             // 
+            // lblPlaca
+            // 
+            lblPlaca.AutoSize = true;
+            lblPlaca.Location = new Point(351, 30);
+            lblPlaca.Name = "lblPlaca";
+            lblPlaca.Size = new Size(38, 15);
+            lblPlaca.TabIndex = 5;
+            lblPlaca.Text = "Placa:";
+            // 
             // VistaPersonita
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(914, 600);
+            ClientSize = new Size(800, 450);
+            Controls.Add(lblPlaca);
             Controls.Add(pictureBoxPlaca);
             Controls.Add(labelHoraSalida);
             Controls.Add(labelHoraIngreso);
             Controls.Add(labelPlaca);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "VistaPersonita";
             Text = "administrador";
             ((System.ComponentModel.ISupportInitialize)pictureBoxPlaca).EndInit();
@@ -103,5 +110,6 @@
         private Label labelHoraSalida;
         private System.Windows.Forms.Timer timer1;
         private PictureBox pictureBoxPlaca;
+        private Label lblPlaca;
     }
 }
