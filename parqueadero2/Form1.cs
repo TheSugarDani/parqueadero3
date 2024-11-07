@@ -18,7 +18,7 @@ namespace parqueadero2
 
         public VistaPersonita()
         {
-            InitializeComponent();
+            InitializeComponent();CANSONA
             ocrEngine = new IronTesseract();
             ocrEngine.Language = OcrLanguage.Spanish; 
         }
