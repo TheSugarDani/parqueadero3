@@ -1,3 +1,5 @@
+using IronOcr;
+
 namespace parqueadero2
 {
     internal static class Program
@@ -15,6 +17,25 @@ namespace parqueadero2
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.Run(new VistaPersonita());
+            Application.Run(new Form());
+
+
+            IronTesseract ocr = new IronTesseract();
+            using OcrInput input = new OcrInput();
+            var pageindices = new int[] { 1, 2 };
+            OcrResult resultado = ocr.Read(input);
+            Console.WriteLine(resultado.Text);
+            OcrResult resulta = new IronTesseract().Read(@"img\Screenshot.png");
+            Console.WriteLine(resulta.Text);
+
+            var Pageindices = new int[] { 1, 2 };
+            input.LoadImageFrames(@"img\Potter.LowQuality.tiff", Pageindices);
+            input.Deskew(); 
+            OcrResult resul = ocr.Read(input);
+            Console.WriteLine(resul.Text);
+
         }
+
+
     }
 }

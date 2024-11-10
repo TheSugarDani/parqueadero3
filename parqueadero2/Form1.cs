@@ -15,9 +15,9 @@ namespace parqueadero2
         private DateTime horaIngreso;
         private DateTime horaSalida;
         private bool placaIngresada = false;
-        private bool _isProcessing = false; // Control de procesamiento
+        private bool _isProcessing = false; // control de procesamiento
         private System.Windows.Forms.Timer cameraTimer;
-        private System.Windows.Forms.Timer limpiezaTimer; // Temporizador para limpiar los registros
+        private System.Windows.Forms.Timer limpiezaTimer; // temporizador para limpiar los registros
 
         public VistaPersonita()
         {
@@ -29,7 +29,21 @@ namespace parqueadero2
 
         private void InitializeCamera()
         {
-            capture = new VideoCapture(0); // Inicializar la cámara
+            IronTesseract ocr = new IronTesseract();
+
+            // Configure for speed
+            ocr.Configuration.BlackListCharacters = "~`$#^*_}{][|\\-@'.&%!:;,)(=+";
+            ocr.Configuration.PageSegmentationMode = TesseractPageSegmentationMode.Auto;
+            ocr.Language = OcrLanguage.EnglishFast;
+
+            using OcrInput input = new OcrInput();
+            var Pageindices = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            OcrResult resul = ocr.Read(input);
+            Console.WriteLine(resul.Text);
+
+
+            capture = new VideoCapture(0); // iniciar la cámara
 
             if (!capture.IsOpened())
             {
@@ -38,12 +52,12 @@ namespace parqueadero2
             }
 
             cameraTimer = new System.Windows.Forms.Timer();
-            cameraTimer.Interval = 100; // Intervalo para tomar fotogramas
+            cameraTimer.Interval = 100; // intervalo para tomar imagen
             cameraTimer.Tick += CameraTimer_Tick;
             cameraTimer.Start();
 
             limpiezaTimer = new System.Windows.Forms.Timer();
-            limpiezaTimer.Interval = 5000; // Esperar 5 segundos antes de limpiar los registros
+            limpiezaTimer.Interval = 5000; // espera 5 segundos antes de limpiar el registro
             limpiezaTimer.Tick += LimpiarRegistro_Tick;
         }
 
@@ -53,14 +67,14 @@ namespace parqueadero2
             {
                 using (Mat frame = new Mat())
                 {
-                    capture.Read(frame); // Capturar el fotograma
+                    capture.Read(frame); // captura la imagen 
                     if (frame.Empty())
                     {
                         MessageBox.Show("No se pudo capturar un fotograma de la cámara.");
                         return;
                     }
 
-                    // Actualización de la imagen en el PictureBox
+                    // actualizacion de imagen en el picturebox
                     if (pictureBoxPlaca.Image != null)
                     {
                         pictureBoxPlaca.Image.Dispose();
@@ -69,11 +83,11 @@ namespace parqueadero2
                     pictureBoxPlaca.Image = BitmapConverter.ToBitmap(frame);
                     pictureBoxPlaca.Refresh();
 
-                    // Procesar la imagen solo si no se está procesando otra
+                    // procesa la imagen solo si no esta procesando otra
                     if (!_isProcessing)
                     {
                         _isProcessing = true;
-                        CapturarPlaca(frame); // Procesar OCR de la imagen capturada
+                        CapturarPlaca(frame); // procesa ocr de la imagen capturada
                     }
                 }
             }
@@ -89,50 +103,49 @@ namespace parqueadero2
             {
                 try
                 {
-                    // Preprocesamiento de la imagen (Escala de grises y umbralización)
+                    // preprocesamiento de la imagen escala de grises y umbralización
                     Mat grayFrame = new Mat();
-                    Cv2.CvtColor(frame, grayFrame, ColorConversionCodes.BGR2GRAY); // Convertir a escala de grises
+                    Cv2.CvtColor(frame, grayFrame, ColorConversionCodes.BGR2GRAY); // convertir a escala de grises
 
-                    // Umbralización
+                    // umbralizacion
                     Mat thresholdFrame = new Mat();
                     Cv2.Threshold(grayFrame, thresholdFrame, 128, 255, ThresholdTypes.Binary);
 
-                    // Filtrar el ruido
+                    // filtrar el ruido
                     Mat cleanFrame = new Mat();
                     Cv2.MedianBlur(thresholdFrame, cleanFrame, 3);
 
                     using (var captura = cleanFrame.ToBitmap())
                     {
-                        var resultadoOCR = ocrEngine.Read(captura); // Ejecutar OCR
+                        var resultadoOCR = ocrEngine.Read(captura); // ejecutar ocr
                         if (!string.IsNullOrEmpty(resultadoOCR.Text))
                         {
                             string placaDetectada = resultadoOCR.Text.Trim();
 
-                            // Primera detección: registrar ingreso
+                            // primera detección, registra ingreso
                             if (!placaIngresada)
                             {
                                 placaActual = placaDetectada;
                                 horaIngreso = DateTime.Now;
                                 placaIngresada = true;
 
-                                // Actualizar los labels con la placa y la hora de ingreso
+                                // actualiza los labels con la placa y la hora de ingreso
                                 lblPlaca.Text = $"Placa: {placaActual}";
                                 labelHoraIngreso.Text = $"Hora de Ingreso: {horaIngreso:HH:mm:ss}";
 
-                                // Iniciar el temporizador para limpiar los registros después de 5 segundos
+                                // iniciar el temporizador para limpiar los registros despues de 5 segundos
                                 limpiezaTimer.Start();
                             }
-                            // Si la placa ya está ingresada, registrar salida
+                            // si la placa ya esta ingresada, registra salida
                             else if (placaActual == placaDetectada)
                             {
                                 horaSalida = DateTime.Now;
                                 labelHoraSalida.Text = $"Hora de Salida: {horaSalida:HH:mm:ss}";
 
-                                // Detener el temporizador si se detecta la placa registrada para la salida
-                                limpiezaTimer.Stop();
+                                // detener el temporizador si se detecta la placa registrada para la salida
+                                limpiezaTimer.Start();
 
-                                // Llamar a la función de limpieza para permitir una nueva detección de placa
-                                LimpiarRegistro();
+                                // llamar a la funcion de limpieza para permitir una nueva deteccion de placa
                             }
                         }
                     }
@@ -143,31 +156,31 @@ namespace parqueadero2
                 }
                 finally
                 {
-                    _isProcessing = false; // Terminar procesamiento
+                    _isProcessing = false; // termina procesamiento
                 }
             }
         }
 
         private void LimpiarRegistro_Tick(object sender, EventArgs e)
         {
-            // Limpiar los registros después de que haya pasado el tiempo de espera (5 segundos)
+            // limpia los registros despues de que haya pasado el tiempo de espera de 5 segundos
             LimpiarRegistro();
-            // Detener el temporizador después de limpiar los registros
+            // detener el temporizador despues de limpiar los registros
             limpiezaTimer.Stop();
         }
 
         private void LimpiarRegistro()
         {
-            // Reiniciar variables para permitir una nueva detección
+            // reiniar variables para permitir una nueva deteccion
             placaActual = string.Empty;
             placaIngresada = false;
 
-            // Limpiar los labels para el próximo vehículo
+            // limpia los labels para el proximo vehiculo
             lblPlaca.Text = "Placa:";
             labelHoraIngreso.Text = "Hora de Ingreso:";
             labelHoraSalida.Text = "Hora de Salida:";
 
-            // Opcional: Limpiar la imagen del PictureBox
+            // opcional, limpia la imagen del picturebox
             pictureBoxPlaca.Image = null;
         }
 
@@ -175,13 +188,24 @@ namespace parqueadero2
         {
             try
             {
-                cameraTimer?.Stop(); // Detener el temporizador
-                capture?.Release(); // Liberar la cámara
+                cameraTimer?.Stop(); // detiene el temporizador
+                capture?.Release(); // libera la camara
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al cerrar la aplicación: {ex.Message}");
             }
         }
+
+        private void lblPlaca_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void VistaPersonita_Load(object sender, EventArgs e)
+        {
+
+        }
     }
+
 }
