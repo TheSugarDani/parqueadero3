@@ -3,6 +3,7 @@ using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace parqueadero2
@@ -18,6 +19,8 @@ namespace parqueadero2
         private bool _isProcessing = false; // Control de procesamiento
         private System.Windows.Forms.Timer cameraTimer;
         private System.Windows.Forms.Timer limpiezaTimer; // Temporizador para limpiar los registros
+
+        private Dictionary<string, DateTime> registroPlacas = new Dictionary<string, DateTime>();
 
         public VistaPersonita()
         {
@@ -107,13 +110,12 @@ namespace parqueadero2
                     Mat thresholdFrame = new Mat();
                     Cv2.AdaptiveThreshold(grayFrame, thresholdFrame, 255, AdaptiveThresholdTypes.GaussianC, ThresholdTypes.Binary, 11, 2);
 
-                    // Filtrar el ruido con un filtro de mediana
+                    // Filtro de mediana para reducir el ruido en la imagen
                     Mat cleanFrame = new Mat();
                     Cv2.MedianBlur(thresholdFrame, cleanFrame, 3);
 
                     // Recortar la imagen para enfocarse solo en la zona de la placa
-                    // Ajusta las coordenadas según el tamaño y posición de la placa
-                    Rect placaRect = new Rect(50, 50, 400, 100); // Ejemplo de área de la placa
+                    Rect placaRect = new Rect(50, 50, frame.Width - 100, 100); // Ajusta el área donde esperas la placa
                     Mat placaFrame = cleanFrame[placaRect];
 
                     using (var captura = placaFrame.ToBitmap())
@@ -138,6 +140,12 @@ namespace parqueadero2
                                     lblPlaca.Text = $"Placa: {placaActual}";
                                     labelHoraIngreso.Text = $"Hora de Ingreso: {horaIngreso:HH:mm:ss}";
 
+                                    // Guardar en el diccionario con la hora de ingreso
+                                    if (!registroPlacas.ContainsKey(placaActual))
+                                    {
+                                        registroPlacas.Add(placaActual, horaIngreso);
+                                    }
+
                                     // Iniciar el temporizador para limpiar los registros después de 5 segundos
                                     limpiezaTimer.Start();
                                 }
@@ -146,6 +154,12 @@ namespace parqueadero2
                                 {
                                     horaSalida = DateTime.Now;
                                     labelHoraSalida.Text = $"Hora de Salida: {horaSalida:HH:mm:ss}";
+
+                                    // Guardar la hora de salida en el diccionario
+                                    if (registroPlacas.ContainsKey(placaActual))
+                                    {
+                                        registroPlacas[placaActual] = horaSalida;
+                                    }
 
                                     // Detener el temporizador si se detecta la placa registrada para la salida
                                     limpiezaTimer.Start();
@@ -167,7 +181,7 @@ namespace parqueadero2
 
         private bool EsPlacaValida(string placa)
         {
-            // Validación simple para ver si la placa tiene 6 caracteres alfanuméricos
+            // Validación más estricta: La placa debe tener exactamente 6 caracteres y solo alfanuméricos
             return placa.Length == 6 && placa.All(char.IsLetterOrDigit);
         }
 
@@ -196,7 +210,7 @@ namespace parqueadero2
 
         private void lblPlaca_Click(object sender, EventArgs e)
         {
-
+            // Acción al hacer clic en lblPlaca si se requiere
         }
     }
 }
