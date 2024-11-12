@@ -102,7 +102,7 @@ namespace parqueadero2
 
                     // Mejorar el contraste con ecualización de histograma
                     Cv2.EqualizeHist(grayFrame, grayFrame);
-
+                     
                     // Umbralización adaptativa para manejar cambios de luz
                     Mat thresholdFrame = new Mat();
                     Cv2.AdaptiveThreshold(grayFrame, thresholdFrame, 255, AdaptiveThresholdTypes.GaussianC, ThresholdTypes.Binary, 11, 2);
