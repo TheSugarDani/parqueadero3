@@ -17,7 +17,7 @@ namespace parqueadero2
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.Run(new VistaPersonita());
-            Application.Run(new Form());
+            
 
 
             IronTesseract ocr = new IronTesseract();
@@ -30,7 +30,7 @@ namespace parqueadero2
 
             var Pageindices = new int[] { 1, 2 };
             input.LoadImageFrames(@"img\Potter.LowQuality.tiff", Pageindices);
-            input.Deskew(); 
+            input.Deskew();
             OcrResult resul = ocr.Read(input);
             Console.WriteLine(resul.Text);
 
