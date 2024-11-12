@@ -37,7 +37,7 @@ namespace parqueadero2
             ocr.Language = OcrLanguage.EnglishFast;
 
             using OcrInput input = new OcrInput();
-            var Pageindices = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            var Pageindices = new int[] { 1, 2 };
 
             OcrResult resul = ocr.Read(input);
             Console.WriteLine(resul.Text);
@@ -200,12 +200,7 @@ namespace parqueadero2
         private void lblPlaca_Click(object sender, EventArgs e)
         {
 
-        }
-
-        private void VistaPersonita_Load(object sender, EventArgs e)
-        {
-
-        }
+        }      
     }
 
 }

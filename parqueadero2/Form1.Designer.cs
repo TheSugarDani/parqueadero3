@@ -7,9 +7,7 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
+
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
@@ -101,7 +99,6 @@
             Margin = new Padding(3, 4, 3, 4);
             Name = "VistaPersonita";
             Text = "administrador";
-            Load += VistaPersonita_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBoxPlaca).EndInit();
             ResumeLayout(false);
             PerformLayout();
