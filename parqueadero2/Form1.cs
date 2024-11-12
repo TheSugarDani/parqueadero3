@@ -184,18 +184,7 @@ namespace parqueadero2
             pictureBoxPlaca.Image = null;
         }
 
-        private void VistaPersonita_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            try
-            {
-                cameraTimer?.Stop(); // detiene el temporizador
-                capture?.Release(); // libera la camara
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al cerrar la aplicación: {ex.Message}");
-            }
-        }
+        
 
         private void lblPlaca_Click(object sender, EventArgs e)
         {
